@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI诗词生成器</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <span class="brush-decoration">AI</span>诗词生成器
+            </h1>
+            <p class="subtitle">以墨为韵，以诗为心</p>
+        </header>
+
+        <main class="main-content">
+            <div class="left-panel">
+                <div class="control-panel card">
+                    <h2 class="section-title">创作设置</h2>
+                    
+                    <div class="form-group">
+                        <label for="poemType">诗词类型</label>
+                        <select id="poemType" class="form-select">
+                            <option value="normal">普通诗词</option>
+                            <option value="acrostic">藏头诗</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="poemLength">诗词格式</label>
+                        <select id="poemLength" class="form-select">
+                            <option value="5jue">五言绝句</option>
+                            <option value="7jue">七言绝句</option>
+                            <option value="5lv">五言律诗</option>
+                            <option value="7lv">七言律诗</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="keywords">关键词</label>
+                        <input type="text" id="keywords" class="form-input" placeholder="请输入关键词，用逗号分隔">
+                        <p class="hint">藏头诗时请输入藏头的字</p>
+                    </div>
+
+                    <button id="generateBtn" class="btn btn-primary">
+                        <span class="btn-text">生成诗词</span>
+                    </button>
+                </div>
+
+                <div class="history-panel card">
+                    <div class="history-header">
+                        <h2 class="section-title">历史作品</h2>
+                        <button id="clearHistoryBtn" class="btn btn-small">清空</button>
+                    </div>
+                    <div id="historyList" class="history-list">
+                        <p class="empty-hint">暂无历史记录</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="result-panel card">
+                    <div class="poem-container" id="poemContainer">
+                        <div class="poem-paper">
+                            <div class="seal-decoration"></div>
+                            <div id="poemContent" class="poem-content">
+                                <p class="poem-placeholder">点击"生成诗词"开始创作</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" id="actionButtons" style="display: none;">
+                        <button id="copyBtn" class="btn btn-secondary">
+                            <span class="btn-icon">📋</span>
+                            复制
+                        </button>
+                        <button id="saveBtn" class="btn btn-secondary">
+                            <span class="btn-icon">💾</span>
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2024 AI诗词生成器 | 传承千年文化，续写诗意人生</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
