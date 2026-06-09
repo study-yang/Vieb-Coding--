@@ -1,0 +1,88 @@
+.bill-card-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin: 0 16rpx 12rpx;
+  border-radius: var(--radius-card);
+}
+
+.bill-card-delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FF4D4F;
+  color: #FFFFFF;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+}
+
+.bill-card {
+  background-color: var(--color-card);
+  border-radius: var(--radius-card);
+  padding: 24rpx;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  z-index: 1;
+}
+
+.bill-main {
+  display: flex;
+  align-items: center;
+}
+
+.bill-emoji {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  flex-shrink: 0;
+}
+
+.bill-info {
+  flex: 1;
+  margin-left: 16rpx;
+  overflow: hidden;
+}
+
+.bill-category {
+  font-size: var(--font-size-body);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bill-note {
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.bill-time {
+  margin-top: 4rpx;
+}
+
+.bill-amount {
+  font-size: 32rpx;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.fade-out {
+  animation: cardFadeOut 0.25s ease-out forwards;
+}
+
+@keyframes cardFadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20rpx); }
+}

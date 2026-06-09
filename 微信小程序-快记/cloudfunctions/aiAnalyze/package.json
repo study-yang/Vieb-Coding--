@@ -1,0 +1,1 @@
+{"name":"aiAnalyze","version":"1.0.0","description":"AI 消费分析","main":"index.js","engines":{"node":">=14"},"scripts":{"audit":"npm audit --audit-level=moderate","audit:fix":"npm audit fix"},"dependencies":{"wx-server-sdk":"^3.0.4","@cloudbase/node-sdk":"^3.16.0"}}

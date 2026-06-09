@@ -1,0 +1,60 @@
+.toast-container {
+  position: fixed;
+  bottom: 160rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.toast-container.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-card);
+  border-radius: 32rpx;
+  padding: 16rpx 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+}
+
+.toast-message {
+  font-size: var(--font-size-body);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.toast-divider {
+  width: 1rpx;
+  height: 24rpx;
+  background-color: var(--color-divider);
+  margin: 0 16rpx;
+}
+
+.toast-undo {
+  font-size: var(--font-size-body);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  padding: 4rpx 8rpx;
+  border-radius: 8rpx;
+}
+
+.toast-undo:active {
+  background-color: var(--color-primary-light);
+}
+
+@keyframes bounce {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.bounce {
+  animation: bounce 0.3s ease-out;
+}

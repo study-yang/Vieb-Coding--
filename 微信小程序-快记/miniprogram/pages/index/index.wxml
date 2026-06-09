@@ -1,0 +1,118 @@
+<view class="container {{themeClass}}">
+  <summary-header
+    todayExpense="{{todayExpense}}"
+    monthExpense="{{monthExpense}}"
+  />
+
+  <view class="amount-display">
+    <view class="amount-main {{amount ? 'has-value' : ''}} {{toastShow ? 'bounce' : ''}}">
+      <view class="amount-currency">¥</view>
+      <view class="amount-number">{{displayAmount}}</view>
+    </view>
+    <view wx:if="{{!amount}}" class="amount-hint">点下面数字开始记账</view>
+    <view wx:elif="{{selectedCategory}}" class="amount-category-hint flex-row">
+      <view class="amount-cat-tag">{{selectedCategory.emoji}} {{selectedCategory.name}}</view>
+    </view>
+  </view>
+
+  <view class="quick-categories">
+    <scroll-view class="quick-cat-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="quick-cat-list">
+        <view
+          wx:for="{{quickCategories}}"
+          wx:key="key"
+          class="quick-cat-item {{selectedCategory && selectedCategory.key === item.key ? 'active' : ''}}"
+          data-key="{{item.key}}"
+          data-name="{{item.name}}"
+          data-emoji="{{item.emoji}}"
+          data-color="{{item.color}}"
+          bindtap="onCategoryTap"
+          bindlongpress="onCategoryLongPress"
+          hover-class="quick-cat-hover"
+        >
+          <view class="quick-cat-emoji">{{item.emoji}}</view>
+          <view class="quick-cat-name">{{item.name}}</view>
+        </view>
+        <view
+          class="quick-cat-item more-btn"
+          data-key="more"
+          bindtap="onShowCategoryPicker"
+          hover-class="quick-cat-hover"
+        >
+          <view class="quick-cat-emoji more-emoji">⋯</view>
+          <view class="quick-cat-name">更多</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="note-input-wrap">
+    <input
+      class="note-input"
+      placeholder="备注（选填）"
+      placeholder-class="note-placeholder"
+      value="{{note}}"
+      bindinput="onNoteInput"
+      maxlength="50"
+    />
+  </view>
+
+  <number-keyboard
+    value="{{amount}}"
+    maxLength="{{9}}"
+    maxDecimal="{{2}}"
+    bind:change="onAmountChange"
+  />
+
+  <view class="bottom-bar">
+    <view class="bottom-left">
+      <voice-input bind:voiceText="onVoiceText" bind:needManualInput="onNeedManualInput" />
+    </view>
+    <view class="bottom-right">
+      <view class="save-btn {{!amount ? 'disabled' : ''}}" bindtap="onKeySave">
+        <view class="save-icon">✓</view>
+        <view class="save-text">记一笔</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showManualInput}}" class="manual-input-overlay" bindtap="onCloseManualInput">
+    <view class="manual-input-panel" catchtap>
+      <view class="manual-input-header">
+        <view class="manual-input-title">手动输入描述</view>
+        <view class="manual-input-close" bindtap="onCloseManualInput">✕</view>
+      </view>
+      <textarea
+        class="manual-input-textarea"
+        placeholder="示例：中午吃了二十五块钱快餐"
+        value="{{manualInputText}}"
+        bindinput="onManualInputChange"
+        maxlength="100"
+        auto-height
+      />
+      <view class="manual-input-footer">
+        <button class="btn-outline" bindtap="onCloseManualInput">取消</button>
+        <button class="btn-primary" bindtap="onManualInputConfirm">AI 识别</button>
+      </view>
+    </view>
+  </view>
+
+  <category-picker
+    show="{{showCategoryPicker}}"
+    selectedKey="{{selectedCategory ? selectedCategory.key : ''}}"
+    tab="{{activeTab}}"
+    bind:select="onCategorySelect"
+    bind:close="onCloseCategoryPicker"
+    bind:tabchange="onPickerTabChange"
+    bind:setdefault="onCategorySetDefault"
+  />
+
+  <toast-bar
+    show="{{toastShow}}"
+    message="{{toastMessage}}"
+    showUndo="{{toastShowUndo}}"
+    bind:undo="onToastUndo"
+    bind:close="onToastClose"
+    bind:timeout="onToastTimeout"
+  />
+</view>

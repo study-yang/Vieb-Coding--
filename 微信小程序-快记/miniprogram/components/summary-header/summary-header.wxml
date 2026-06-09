@@ -1,0 +1,11 @@
+<view class="summary-header">
+  <view class="summary-left">
+    <view class="summary-label caption">今日支出</view>
+    <view class="summary-amount amount-large text-expense">¥{{displayToday}}</view>
+  </view>
+  <view class="summary-divider"></view>
+  <view class="summary-right">
+    <view class="summary-label caption">本月支出</view>
+    <view class="summary-amount amount-large text-expense">¥{{displayMonth}}</view>
+  </view>
+</view>

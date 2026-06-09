@@ -1,0 +1,47 @@
+<view class="voice-wrap">
+  <!-- 麦克风按钮 -->
+  <view
+    class="mic-btn {{state === 'recording' ? 'recording' : ''}}"
+    bindtap="onMicTap"
+    hover-class="{{state === 'idle' ? 'mic-btn-hover' : ''}}"
+  >
+    <view class="mic-icon">
+      <text wx:if="{{state === 'idle'}}">🎤</text>
+      <text wx:elif="{{state === 'processing'}}">⏳</text>
+      <text wx:else>🎤</text>
+    </view>
+    <view class="mic-label">
+      <text wx:if="{{state === 'idle'}}">点击录音</text>
+      <text wx:elif="{{state === 'processing'}}">解析中...</text>
+      <text wx:else>录音中</text>
+    </view>
+  </view>
+
+  <!-- 录音面板 -->
+  <view wx:if="{{state === 'recording'}}" class="record-overlay" catchtap>
+    <view class="record-panel">
+      <!-- 波形动画 -->
+      <view class="wave-wrap">
+        <view class="wave-bar wave-bar-1"></view>
+        <view class="wave-bar wave-bar-2"></view>
+        <view class="wave-bar wave-bar-3"></view>
+        <view class="wave-bar wave-bar-4"></view>
+        <view class="wave-bar wave-bar-5"></view>
+      </view>
+
+      <!-- 时长 -->
+      <view class="record-duration">{{duration}}″</view>
+
+      <!-- 实时识别文本 -->
+      <view class="record-text">{{recordText || '正在聆听...'}}</view>
+
+      <!-- 提示 -->
+      <view class="record-hint">点击下方按钮结束录音</view>
+
+      <!-- 停止按钮 -->
+      <view class="stop-btn" bindtap="onStopTap">
+        <view class="stop-icon">■</view>
+      </view>
+    </view>
+  </view>
+</view>

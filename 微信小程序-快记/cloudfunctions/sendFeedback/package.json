@@ -1,0 +1,17 @@
+{
+  "name": "sendFeedback",
+  "version": "1.0.0",
+  "description": "发送意见反馈邮件",
+  "main": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "audit": "npm audit --audit-level=moderate",
+    "audit:fix": "npm audit fix"
+  },
+  "dependencies": {
+    "wx-server-sdk": "^3.0.4",
+    "nodemailer": "^7.0.11"
+  }
+}

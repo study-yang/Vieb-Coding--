@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "skeleton": "../../components/skeleton/skeleton",
+    "budget-bar": "../../components/budget-bar/budget-bar"
+  },
+  "navigationBarTitleText": "AI 分析"
+}

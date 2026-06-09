@@ -1,0 +1,61 @@
+<view class="picker-overlay {{show ? 'show' : ''}}" bindtap="onClose">
+  <view class="picker-panel {{show ? 'show' : ''}}" catchtap="preventBubble">
+    <view class="picker-header">
+      <view class="picker-title">选择分类</view>
+      <view class="picker-close" bindtap="onClose">✕</view>
+    </view>
+
+    <view class="tab-row">
+      <view
+        class="tab-item {{activeTab === 'expense' ? 'active' : ''}}"
+        data-tab="expense"
+        bindtap="onTabChange"
+      >支出</view>
+      <view
+        class="tab-item {{activeTab === 'income' ? 'active' : ''}}"
+        data-tab="income"
+        bindtap="onTabChange"
+      >收入</view>
+    </view>
+
+    <scroll-view class="category-grid" scroll-y enhanced show-scrollbar="{{false}}">
+      <block wx:if="{{activeTab === 'expense'}}">
+        <view
+          wx:for="{{expenseCategories}}"
+          wx:key="key"
+          class="category-item {{selectedKey === item.key ? 'selected' : ''}}"
+          data-key="{{item.key}}"
+          data-name="{{item.name}}"
+          data-emoji="{{item.emoji}}"
+          data-color="{{item.color}}"
+          bindtap="onCategoryTap"
+          bindlongpress="onCategoryLongPress"
+          hover-class="category-item-hover"
+        >
+          <view class="category-emoji" style="background-color: {{item.color}}15;">
+            {{item.emoji}}
+          </view>
+          <view class="category-name">{{item.name}}</view>
+        </view>
+      </block>
+      <block wx:if="{{activeTab === 'income'}}">
+        <view
+          wx:for="{{incomeCategories}}"
+          wx:key="key"
+          class="category-item {{selectedKey === item.key ? 'selected' : ''}}"
+          data-key="{{item.key}}"
+          data-name="{{item.name}}"
+          data-emoji="{{item.emoji}}"
+          data-color="{{item.color}}"
+          bindtap="onCategoryTap"
+          hover-class="category-item-hover"
+        >
+          <view class="category-emoji" style="background-color: {{item.color}}15;">
+            {{item.emoji}}
+          </view>
+          <view class="category-name">{{item.name}}</view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>

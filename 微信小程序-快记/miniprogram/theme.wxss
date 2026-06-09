@@ -1,0 +1,54 @@
+page {
+  --color-primary: #FF6B35;
+  --color-primary-light: #FFF0EB;
+  --color-bg: #F8F8F8;
+  --color-card: #FFFFFF;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #999999;
+  --color-text-hint: #CCCCCC;
+  --color-divider: #EEEEEE;
+  --color-success: #52C41A;
+  --color-warning: #FAAD14;
+  --color-danger: #FF4D4F;
+  --color-expense: #FF6B35;
+  --color-income: #52C41A;
+
+  --font-size-amount: 48rpx;
+  --font-size-title: 32rpx;
+  --font-size-body: 28rpx;
+  --font-size-caption: 24rpx;
+
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-regular: 400;
+
+  --radius-card: 16rpx;
+  --radius-button: 24rpx;
+  --radius-key: 12rpx;
+
+  --shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  --shadow-popup: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Roboto', 'Segoe UI', sans-serif;
+  font-size: var(--font-size-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+}
+
+/* 跟随系统深色 */
+@media (prefers-color-scheme: dark) {
+  page {
+    --color-primary: #FF8A5C;
+    --color-primary-light: #3D2A22;
+    --color-bg: #1A1A1A;
+    --color-card: #2C2C2C;
+    --color-text-primary: #F0F0F0;
+    --color-text-secondary: #888888;
+    --color-text-hint: #666666;
+    --color-divider: #333333;
+    --color-expense: #FF8A5C;
+    --color-income: #73D13D;
+    --shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.2);
+    --shadow-popup: 0 -4rpx 20rpx rgba(0, 0, 0, 0.3);
+  }
+}

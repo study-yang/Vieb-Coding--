@@ -1,0 +1,9 @@
+<view class="toast-container {{show ? 'show' : ''}}">
+  <view class="toast-content {{show ? 'bounce' : ''}}">
+    <text class="toast-message">{{message}}</text>
+    <block wx:if="{{showUndo && countdown > 0}}">
+      <view class="toast-divider"></view>
+      <view class="toast-undo" bindtap="onUndo">撤销 {{countdown}}s</view>
+    </block>
+  </view>
+</view>

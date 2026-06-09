@@ -1,0 +1,167 @@
+<view class="container {{themeClass}}">
+  <view class="card profile-card">
+    <view class="user-info flex-row">
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image
+          wx:if="{{avatarUrl}}"
+          class="avatar"
+          src="{{avatarUrl}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="avatar-placeholder">👤</view>
+      </button>
+      <view class="user-text flex-column">
+        <input
+          class="nickname-input"
+          type="nickname"
+          value="{{nickName}}"
+          placeholder="点击设置昵称"
+          bindblur="onNicknameInput"
+          bindconfirm="onNicknameInput"
+        />
+        <button wx:if="{{!nickName}}" class="weixin-login-btn" bindtap="onOneTapLogin">微信一键登录</button>
+        <view class="caption">记录每一笔，洞察每一天</view>
+      </view>
+    </view>
+    <view class="divider" style="margin: 24rpx 0;"></view>
+    <view class="stats-row flex-between">
+      <view class="stat-item flex-column">
+        <view class="stat-number amount-large text-expense">{{totalBills}}</view>
+        <view class="stat-label caption">累计记账</view>
+      </view>
+      <view class="stat-item flex-column">
+        <view class="stat-number amount-large text-income">{{totalDays}}</view>
+        <view class="stat-label caption">记账天数</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据概览 -->
+  <view class="card overview-card">
+    <view class="card-title">📊 数据概览</view>
+    <view class="overview-grid">
+      <view class="overview-item">
+        <view class="overview-value text-expense">¥{{todayExpense}}</view>
+        <view class="overview-label caption">今日支出</view>
+      </view>
+      <view class="overview-item">
+        <view class="overview-value text-expense">¥{{monthExpense}}</view>
+        <view class="overview-label caption">本月支出</view>
+      </view>
+      <view class="overview-item">
+        <view class="overview-value text-income">¥{{monthIncome}}</view>
+        <view class="overview-label caption">本月收入</view>
+      </view>
+      <view class="overview-item">
+        <view class="overview-value">¥{{dailyAvgExpense}}</view>
+        <view class="overview-label caption">日均支出</view>
+      </view>
+    </view>
+    <view wx:if="{{topCategory}}" class="overview-top flex-between">
+      <view class="top-left flex-row">
+        <text class="top-tag">最费钱</text>
+        <text class="top-name">{{topCategory.name}}</text>
+      </view>
+      <view class="top-amount text-expense">¥{{topCategory.total}}</view>
+    </view>
+  </view>
+
+  <view class="card menu-card">
+    <view class="menu-item flex-between" bindtap="onNavigateToBudget">
+      <view class="menu-left flex-row">
+        <view class="menu-icon">💰</view>
+        <view class="menu-text">预算设置</view>
+      </view>
+      <view class="menu-arrow caption">›</view>
+    </view>
+    <view class="divider"></view>
+    <view class="menu-item flex-between" data-path="export" bindtap="onNavigateTo">
+      <view class="menu-left flex-row">
+        <view class="menu-icon">📤</view>
+        <view class="menu-text">数据导出</view>
+      </view>
+      <view class="menu-arrow caption">›</view>
+    </view>
+  </view>
+
+  <view class="card menu-card">
+    <view class="menu-item flex-between" bindtap="onThemeModeTap">
+      <view class="menu-left flex-row">
+        <view class="menu-icon">{{themeMode === 'dark' ? '🌙' : themeMode === 'light' ? '☀️' : '🔄'}}</view>
+        <view class="menu-text">外观模式</view>
+      </view>
+      <view class="menu-right flex-row">
+        <view class="menu-desc caption">{{themeMode === 'auto' ? '跟随系统' : themeMode === 'light' ? '浅色' : '深色'}}</view>
+        <view class="menu-arrow caption">›</view>
+      </view>
+    </view>
+    <view class="divider"></view>
+    <view class="menu-item flex-between" bindtap="onAbout">
+      <view class="menu-left flex-row">
+        <view class="menu-icon">ℹ️</view>
+        <view class="menu-text">关于快记</view>
+      </view>
+      <view class="menu-arrow caption">›</view>
+    </view>
+    <view class="divider"></view>
+    <view class="menu-item flex-between" bindtap="onFeedback">
+      <view class="menu-left flex-row">
+        <view class="menu-icon">💬</view>
+        <view class="menu-text">意见反馈</view>
+      </view>
+      <view class="menu-arrow caption">›</view>
+    </view>
+  </view>
+
+  <!-- 主题选择弹窗 -->
+  <view wx:if="{{showThemePicker}}" class="picker-mask" bindtap="onThemePickerCancel">
+    <view class="picker-panel" catchtap>
+      <view class="picker-title">选择外观模式</view>
+      <view class="picker-options">
+        <view
+          wx:for="{{themeOptions}}"
+          wx:key="key"
+          class="picker-option {{themeMode === item.key ? 'active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onThemeModeSelect"
+        >
+          <view class="picker-option-name">{{item.name}}</view>
+          <view wx:if="{{themeMode === item.key}}" class="picker-option-check">✓</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="version caption">版本 {{appVersion}}</view>
+
+  <!-- 反馈弹窗 -->
+  <view wx:if="{{showFeedback}}" class="picker-mask" bindtap="onFeedbackCancel">
+    <view class="feedback-panel" catchtap>
+      <view class="picker-title">💬 意见反馈</view>
+      <view class="feedback-desc caption">你的建议是我们改进的动力 ✨</view>
+      <textarea
+        class="feedback-textarea"
+        placeholder="请描述你的建议或遇到的问题…"
+        value="{{feedbackContent}}"
+        bindinput="onFeedbackContentInput"
+        maxlength="500"
+        adjust-position="{{true}}"
+        cursor-spacing="200"
+      />
+      <input
+        class="feedback-contact"
+        type="text"
+        placeholder="联系方式（选填，手机号/QQ号等）"
+        value="{{feedbackContact}}"
+        bindinput="onFeedbackContactInput"
+        maxlength="50"
+        adjust-position="{{true}}"
+        cursor-spacing="160"
+      />
+      <view class="feedback-actions flex-row">
+        <view class="feedback-btn btn-outline" bindtap="onFeedbackCancel">取消</view>
+        <view class="feedback-btn btn-primary" bindtap="onFeedbackSubmit">提交反馈</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,64 @@
+<view class="container {{themeClass}}">
+  <view class="card">
+    <view class="title">每日预算</view>
+    <view class="budget-input-row">
+      <view class="input-prefix">¥</view>
+      <input
+        class="budget-input"
+        type="digit"
+        placeholder="输入每日预算"
+        placeholder-class="note-placeholder"
+        value="{{dayBudgetInput}}"
+        bindinput="onDayInput"
+        bindfocus="onToggleDayQuick"
+      />
+      <view class="input-save-btn btn-primary" bindtap="saveDayBudget">保存</view>
+    </view>
+    <view wx:if="{{showDayQuick}}" class="quick-amounts">
+      <view wx:for="{{quickDayAmounts}}" wx:key="*this" class="quick-tag" data-amount="{{item}}" bindtap="onQuickDayAmount">
+        ¥{{item}}
+      </view>
+    </view>
+    <budget-bar usage="{{dayUsage}}" budget="{{dayBudget}}" type="day" wx:if="{{dayBudget > 0}}" />
+    <view wx:if="{{dayBudget === 0}}" class="caption empty-hint">尚未设置每日预算</view>
+  </view>
+
+  <view class="card">
+    <view class="title">每月预算</view>
+    <view class="budget-input-row">
+      <view class="input-prefix">¥</view>
+      <input
+        class="budget-input"
+        type="digit"
+        placeholder="输入每月预算"
+        placeholder-class="note-placeholder"
+        value="{{monthBudgetInput}}"
+        bindinput="onMonthInput"
+        bindfocus="onToggleMonthQuick"
+      />
+      <view class="input-save-btn btn-primary" bindtap="saveMonthBudget">保存</view>
+    </view>
+    <view wx:if="{{showMonthQuick}}" class="quick-amounts">
+      <view wx:for="{{quickMonthAmounts}}" wx:key="*this" class="quick-tag" data-amount="{{item}}" bindtap="onQuickMonthAmount">
+        ¥{{item}}
+      </view>
+    </view>
+    <budget-bar usage="{{monthUsage}}" budget="{{monthBudget}}" type="month" wx:if="{{monthBudget > 0}}" />
+    <view wx:if="{{monthBudget === 0}}" class="caption empty-hint">尚未设置每月预算</view>
+  </view>
+
+  <view class="card">
+    <view class="title">提醒设置</view>
+    <view class="remind-row flex-between">
+      <view class="remind-info">
+        <view class="remind-label">超支提醒推送</view>
+        <view class="caption">每日晚间 20:00 推送预算使用情况</view>
+      </view>
+      <switch
+        checked="{{subscribeEnabled}}"
+        color="{{switchColor}}"
+        bindchange="onToggleSubscribe"
+      />
+    </view>
+  </view>
+</view>

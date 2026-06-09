@@ -1,0 +1,86 @@
+<view class="container {{themeClass}}">
+  <!-- 月份行 -->
+  <view class="month-selector {{viewMode === 'day' ? 'compact' : ''}}">
+    <view class="month-nav" bindtap="{{viewMode === 'day' ? 'onPrevDay' : 'onPrevMonth'}}">◀</view>
+    <view wx:if="{{viewMode === 'day'}}" class="day-title" bindtap="onSwitchToMonth">
+      {{currentYear}}年{{currentMonth}}月{{currentDay}}日
+    </view>
+    <picker wx:if="{{viewMode === 'day'}}" mode="date" value="{{currentYear}}-{{currentMonthPad}}-{{currentDayPad}}" bindchange="onDayPick">
+      <view class="day-title">{{currentYear}}年{{currentMonth}}月{{currentDay}}日</view>
+    </picker>
+    <picker wx:else mode="date" fields="month" value="{{currentYear}}-{{currentMonthPad}}" bindchange="onMonthPick">
+      <view class="month-title">{{currentYear}}年{{currentMonth}}月</view>
+    </picker>
+    <view class="month-nav" bindtap="{{viewMode === 'day' ? 'onNextDay' : 'onNextMonth'}}">▶</view>
+  </view>
+
+  <!-- 切换按钮 -->
+  <view class="view-toggle">
+    <view class="toggle-item {{viewMode === 'month' ? 'active' : ''}}" bindtap="onSwitchToMonth">按月</view>
+    <view class="toggle-item {{viewMode === 'day' ? 'active' : ''}}" bindtap="onSwitchToDay">按日</view>
+  </view>
+
+  <scroll-view class="category-filter" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="filter-list">
+      <view
+        wx:for="{{filterCategories}}"
+        wx:key="key"
+        class="filter-item {{activeCategory === item.key ? 'active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="onCategoryFilter"
+      >
+        {{item.emoji}} {{item.name}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="month-summary" wx:if="{{!loading && !isEmpty}}">
+    <view class="summary-income text-income">收入 ¥{{totalIncome}}</view>
+    <view class="summary-expense text-expense">支出 ¥{{totalExpense}}</view>
+    <view class="summary-balance {{totalIncome - totalExpense >= 0 ? 'text-income' : 'text-expense'}}">
+      结余 ¥{{totalIncome - totalExpense}}
+    </view>
+  </view>
+
+  <skeleton loading="{{loading}}" count="{{4}}" />
+
+  <block wx:if="{{!loading && isEmpty}}">
+    <view class="empty-state">
+      <view class="empty-state-image">📝</view>
+      <view class="empty-state-text">
+        <text wx:if="{{viewMode === 'day'}}">{{currentYear}}年{{currentMonth}}月{{currentDay}}日暂无账单</text>
+        <text wx:else>{{currentYear}}年{{currentMonth}}月暂无账单</text>
+      </view>
+      <view class="empty-state-hint caption">切换日期查看历史账单</view>
+    </view>
+  </block>
+
+  <view wx:if="{{!loading && !isEmpty}}" class="bill-list">
+    <view wx:for="{{groupedBills}}" wx:key="date" class="bill-group">
+      <view class="group-header">
+        <view class="group-date">{{item.label}}</view>
+        <view class="group-line"></view>
+      </view>
+      <bill-card
+        wx:for="{{item.bills}}"
+        wx:key="_id"
+        bill="{{item}}"
+        bind:delete="onBillDelete"
+      />
+    </view>
+
+    <view wx:if="{{loadingMore}}" class="load-more">
+      <view class="load-more-text caption">加载中...</view>
+    </view>
+    <view wx:elif="{{!hasMore && bills.length > 0}}" class="load-more">
+      <view class="load-more-text caption">没有更多了</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!isCurrentMonth && !loading && viewMode === 'month'}}" class="back-today-btn" bindtap="onBackToToday">
+    回到本月
+  </view>
+  <view wx:if="{{viewMode === 'day' && !isToday && !loading}}" class="back-today-btn" bindtap="onBackToToday">
+    回到本月
+  </view>
+</view>

@@ -1,0 +1,30 @@
+.summary-header {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-card);
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.summary-left,
+.summary-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary-label {
+  margin-bottom: 4rpx;
+}
+
+.summary-amount {
+  font-size: 40rpx;
+}
+
+.summary-divider {
+  width: 1rpx;
+  height: 60rpx;
+  background-color: var(--color-divider);
+}

@@ -1,0 +1,18 @@
+<view class="keyboard">
+  <view class="key-row" wx:for="{{keys}}" wx:key="index">
+    <view
+      wx:for="{{item}}"
+      wx:key="*this"
+      wx:for-item="key"
+      class="key {{key === 'backspace' ? 'key-bksp' : ''}} {{key === '.' ? 'key-dot' : ''}}"
+      data-key="{{key}}"
+      bindtap="onKeyTap"
+      hover-class="key-active"
+      hover-stay-time="50"
+    >
+      <block wx:if="{{key === 'backspace'}}">⌫</block>
+      <block wx:elif="{{key === '.'}}">.</block>
+      <block wx:else>{{key}}</block>
+    </view>
+  </view>
+</view>

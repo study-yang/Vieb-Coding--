@@ -1,0 +1,1 @@
+{"name":"getStatistics","version":"1.0.0","description":"统计数据聚合","main":"index.js","engines":{"node":">=14"},"scripts":{"audit":"npm audit --audit-level=moderate","audit:fix":"npm audit fix"},"dependencies":{"wx-server-sdk":"^3.0.4"}}

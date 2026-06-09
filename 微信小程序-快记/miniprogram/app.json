@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/bill-list/bill-list",
+    "pages/ai-analysis/ai-analysis",
+    "pages/budget/budget",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "快记",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF6B35",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "记账",
+        "iconPath": "assets/icons/tab-record.png",
+        "selectedIconPath": "assets/icons/tab-record-active.png"
+      },
+      {
+        "pagePath": "pages/bill-list/bill-list",
+        "text": "账单",
+        "iconPath": "assets/icons/tab-bill.png",
+        "selectedIconPath": "assets/icons/tab-bill-active.png"
+      },
+      {
+        "pagePath": "pages/ai-analysis/ai-analysis",
+        "text": "分析",
+        "iconPath": "assets/icons/tab-analysis.png",
+        "selectedIconPath": "assets/icons/tab-analysis-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/icons/tab-profile.png",
+        "selectedIconPath": "assets/icons/tab-profile-active.png"
+      }
+    ]
+  },
+  "darkmode": true,
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "plugins": {
+    "WechatSI": {
+      "version": "0.0.7",
+      "provider": "wx069ba97219f66d99"
+    }
+  }
+}

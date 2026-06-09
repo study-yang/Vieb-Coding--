@@ -1,0 +1,24 @@
+{
+  "envId": "{{env.ENV_ID}}",
+  "functionRoot": "./cloudfunctions",
+  "functions": [],
+  "database": {
+    "indexes": [
+      { "collection": "bills", "fields": [{ "name": "_openid", "direction": "asc" }, { "name": "date", "direction": "desc" }], "unique": false },
+      { "collection": "bills", "fields": [{ "name": "_openid", "direction": "asc" }, { "name": "category", "direction": "asc" }], "unique": false },
+      { "collection": "bills", "fields": [{ "name": "_openid", "direction": "asc" }, { "name": "amount", "direction": "asc" }], "unique": false },
+      { "collection": "budgets", "fields": [{ "name": "_openid", "direction": "asc" }, { "name": "type", "direction": "asc" }], "unique": false },
+      { "collection": "users", "fields": [{ "name": "_openid", "direction": "asc" }], "unique": false },
+      { "collection": "feedbacks", "fields": [{ "name": "_openid", "direction": "asc" }], "unique": false },
+      { "collection": "rate_limits", "fields": [{ "name": "_openid", "direction": "asc" }, { "name": "date", "direction": "asc" }], "unique": false }
+    ]
+  },
+  "ai": {
+    "defaultAgent": "{{env.AI_DEFAULT_AGENT}}",
+    "agents": {
+      "codebuddy": {
+        "type": "none"
+      }
+    }
+  }
+}

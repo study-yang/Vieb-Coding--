@@ -1,0 +1,12 @@
+<view wx:if="{{loading}}" class="skeleton-wrap">
+  <view wx:for="{{count}}" wx:key="index" class="skeleton-card">
+    <view class="skeleton-row">
+      <view class="skeleton-emoji skeleton-pulse"></view>
+      <view class="skeleton-content">
+        <view class="skeleton-line skeleton-line-short skeleton-pulse"></view>
+        <view class="skeleton-line skeleton-line-long skeleton-pulse"></view>
+      </view>
+      <view class="skeleton-amount skeleton-pulse"></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,208 @@
+@import './theme.wxss';
+
+.container {
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.container.theme-dark {
+  --color-primary: #FF8A5C;
+  --color-primary-light: #3D2A22;
+  --color-bg: #1A1A1A;
+  --color-card: #2C2C2C;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #888888;
+  --color-text-hint: #666666;
+  --color-divider: #333333;
+  --color-expense: #FF8A5C;
+  --color-income: #73D13D;
+  --shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.2);
+  --shadow-popup: 0 -4rpx 20rpx rgba(0, 0, 0, 0.3);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+.container.theme-light {
+  --color-primary: #FF6B35;
+  --color-primary-light: #FFF0EB;
+  --color-bg: #F8F8F8;
+  --color-card: #FFFFFF;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #999999;
+  --color-text-hint: #CCCCCC;
+  --color-divider: #EEEEEE;
+  --color-expense: #FF6B35;
+  --color-income: #52C41A;
+  --shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  --shadow-popup: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+.card {
+  background-color: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 24rpx;
+  margin: 16rpx;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-hint {
+  color: var(--color-text-hint);
+}
+
+.text-expense {
+  color: var(--color-expense);
+}
+
+.text-income {
+  color: var(--color-income);
+}
+
+.amount-large {
+  font-size: var(--font-size-amount);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.title {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.caption {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+}
+
+.divider {
+  height: 1rpx;
+  background-color: var(--color-divider);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-button);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  padding: 16rpx 48rpx;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80rpx;
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2rpx solid var(--color-primary);
+  border-radius: var(--radius-button);
+  font-size: var(--font-size-body);
+  padding: 16rpx 48rpx;
+  min-height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 48rpx;
+}
+
+.empty-state-image {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 32rpx;
+  opacity: 0.6;
+}
+
+.empty-state-text {
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.safe-bottom {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 16rpx);
+}
+
+@keyframes numberBounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cardFadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20rpx); }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes skeletonPulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}
+
+.bounce {
+  animation: numberBounce 0.2s ease-out;
+}
+
+.fade-out {
+  animation: cardFadeOut 0.25s ease-out forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.skeleton-pulse {
+  animation: skeletonPulse 1.2s ease-in-out infinite;
+}

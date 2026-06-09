@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-and-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install, audit and attempt fix for cloudfunctions packages
+        working-directory: ./cloudfunctions
+        run: |
+          set -e
+          for d in */ ; do
+            if [ -f "$PWD/$d/package.json" ]; then
+              echo "Installing in $d"
+              (cd "$d" && npm ci || npm install)
+              echo "Running npm audit for $d"
+              (cd "$d" && npm audit --audit-level=moderate || true)
+              echo "Attempting npm audit fix for $d"
+              (cd "$d" && npm audit fix || true)
+            fi
+          done
+      - name: Run JS lint (if ESLint present)
+        run: |
+          if [ -f package.json ] && jq -e '.devDependencies.eslint' >/dev/null 2>&1; then
+            npm ci
+            npm run lint --silent || true
+          else
+            echo "No eslint configured"
+          fi

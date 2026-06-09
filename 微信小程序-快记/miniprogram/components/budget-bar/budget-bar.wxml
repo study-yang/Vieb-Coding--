@@ -1,0 +1,11 @@
+<view class="budget-bar-wrap">
+  <view wx:if="{{showLabel}}" class="budget-label flex-between">
+    <view class="caption">{{type === 'day' ? '今日' : '本月'}}已支出 ¥{{displayUsage}}</view>
+    <view class="caption">剩余 ¥{{remaining}}</view>
+  </view>
+  <view class="budget-track">
+    <view class="budget-fill" style="width: {{percent}}%; background-color: {{barColor}};">
+    </view>
+  </view>
+  <view wx:if="{{showLabel}}" class="budget-percent caption">{{percent}}%</view>
+</view>

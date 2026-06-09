@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "budget-bar": "../../components/budget-bar/budget-bar"
+  },
+  "navigationBarTitleText": "预算设置"
+}

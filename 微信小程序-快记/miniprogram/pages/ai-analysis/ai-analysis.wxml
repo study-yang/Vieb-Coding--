@@ -1,0 +1,77 @@
+<view class="container {{themeClass}}">
+  <view class="period-tabs">
+    <view
+      wx:for="{{periodOptions}}"
+      wx:key="key"
+      class="period-tab {{activePeriod === item.key ? 'active' : ''}}"
+      data-period="{{item.key}}"
+      bindtap="onPeriodChange"
+    >{{item.name}}</view>
+  </view>
+
+  <skeleton loading="{{loading}}" count="{{3}}" />
+
+  <view wx:if="{{!loading && totalExpense === 0 && !loadError}}" class="empty-state">
+    <view class="empty-state-image">📊</view>
+    <view class="empty-state-text">暂无消费数据</view>
+    <view class="empty-state-hint caption">记账后这里会生成智能分析报告</view>
+  </view>
+
+  <view wx:if="{{!loading && totalExpense === 0 && loadError}}" class="empty-state">
+    <view class="empty-state-image">⚠️</view>
+    <view class="empty-state-text">数据加载失败</view>
+    <view class="empty-state-hint caption">请检查网络后重试</view>
+    <button class="ai-start-btn" style="margin-top: 24rpx; width: auto; padding: 16rpx 48rpx;" bindtap="onRetryLoad">重新加载</button>
+  </view>
+
+  <view wx:if="{{!loading && totalExpense > 0}}" class="analysis-content">
+    <view class="card summary-card">
+      <view class="summary-total amount-large text-expense">¥{{totalExpense}}</view>
+      <view class="summary-label caption">总支出</view>
+    </view>
+
+    <view class="card category-card" wx:if="{{categoryBreakdown.length > 0}}">
+      <view class="card-title title">分类占比</view>
+      <view wx:for="{{categoryBreakdown}}" wx:key="category" class="category-row">
+        <view class="category-row-left">
+          <text class="category-row-emoji">{{item.emoji || '📋'}}</text>
+          <text class="category-row-name">{{item.name}}</text>
+        </view>
+        <view class="category-row-right">
+          <text class="category-row-percent">{{item.percent}}%</text>
+          <budget-bar usage="{{item.total}}" budget="{{totalExpense}}" showLabel="{{false}}" />
+        </view>
+      </view>
+    </view>
+
+    <view class="card ai-action-card" wx:if="{{!showReport && !showSuggestions}}">
+      <button class="ai-start-btn" bindtap="startAiAnalysis" loading="{{aiLoading}}" disabled="{{aiLoading}}">
+        {{aiLoading ? 'AI 分析中...' : '开始 AI 分析'}}
+      </button>
+    </view>
+
+    <view class="card report-card" wx:if="{{showReport && aiReport}}">
+      <view class="card-title title">🤖 AI 消费分析</view>
+      <view class="report-text">{{aiReport}}</view>
+      <view wx:if="{{aiHighlights.length > 0}}" class="report-highlights">
+        <view wx:for="{{aiHighlights}}" wx:key="index" class="highlight-item">• {{item}}</view>
+      </view>
+      <view wx:if="{{aiWarning}}" class="report-warning">
+        ⚠️ {{aiWarning}}
+      </view>
+    </view>
+
+    <view wx:if="{{showReport && aiLoading && !showSuggestions}}" class="card ai-action-card">
+      <view class="suggest-loading">💡 正在生成省钱建议...</view>
+    </view>
+
+    <view class="card suggestion-card" wx:if="{{showSuggestions && suggestions.length > 0}}">
+      <view class="card-title title">💡 省钱小建议</view>
+      <view wx:for="{{suggestions}}" wx:key="index" class="suggestion-bubble {{index % 2 === 0 ? 'bubble-left' : 'bubble-right'}}">
+        <view class="suggestion-title">{{item.title}}</view>
+        <view class="suggestion-content">{{item.content}}</view>
+        <view class="suggestion-save text-income">预计月省 ¥{{item.estimatedSave}}</view>
+      </view>
+    </view>
+  </view>
+</view>

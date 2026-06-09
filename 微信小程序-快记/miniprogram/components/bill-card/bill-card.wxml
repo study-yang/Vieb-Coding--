@@ -1,0 +1,17 @@
+<view class="bill-card-wrapper">
+  <view class="bill-card-delete" bindtap="onDelete">删除</view>
+  <view class="bill-card {{isDeleting ? 'fade-out' : ''}}" catchtouchstart="onTouchStart" catchtouchmove="onTouchMove" catchtouchend="onTouchEnd" style="transform: translateX({{translateX}}rpx); transition: {{animating ? 'transform 0.3s' : 'none'}};">
+    <view class="bill-main" bindtap="onTap">
+      <view class="bill-emoji" style="background-color: {{categoryInfo.color}}15;">
+        {{categoryInfo.emoji}}
+      </view>
+      <view class="bill-info">
+        <view class="bill-category">{{categoryInfo.name}}<text wx:if="{{bill.note}}" class="bill-note"> · {{bill.note}}</text></view>
+        <view class="bill-time caption">{{displayTime}}</view>
+      </view>
+      <view class="bill-amount {{isIncome ? 'text-income' : 'text-expense'}}">
+        {{displayAmount}}
+      </view>
+    </view>
+  </view>
+</view>

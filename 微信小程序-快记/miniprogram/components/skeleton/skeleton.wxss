@@ -1,0 +1,61 @@
+.skeleton-wrap {
+  padding: 16rpx;
+}
+
+.skeleton-card {
+  background-color: var(--color-card);
+  border-radius: var(--radius-card);
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+}
+
+.skeleton-emoji {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  background-color: var(--color-divider);
+  flex-shrink: 0;
+}
+
+.skeleton-content {
+  flex: 1;
+  margin-left: 16rpx;
+}
+
+.skeleton-line {
+  height: 24rpx;
+  border-radius: 6rpx;
+  background-color: var(--color-divider);
+  margin-bottom: 12rpx;
+}
+
+.skeleton-line-short {
+  width: 50%;
+}
+
+.skeleton-line-long {
+  width: 80%;
+}
+
+.skeleton-amount {
+  width: 100rpx;
+  height: 36rpx;
+  border-radius: 8rpx;
+  background-color: var(--color-divider);
+  flex-shrink: 0;
+}
+
+.skeleton-pulse {
+  animation: skeletonPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}

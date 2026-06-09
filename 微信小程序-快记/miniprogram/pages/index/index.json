@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "number-keyboard": "../../components/number-keyboard/number-keyboard",
+    "category-picker": "../../components/category-picker/category-picker",
+    "summary-header": "../../components/summary-header/summary-header",
+    "toast-bar": "../../components/toast/toast",
+    "voice-input": "../../components/voice-input/voice-input"
+  },
+  "navigationBarTitleText": "快记"
+}
