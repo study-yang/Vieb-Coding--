@@ -321,9 +321,13 @@ Page({
   onAbout() {
     wx.showModal({
       title: '关于快记',
-      content: '快记 v1.0.0\nAI 原生极速记账\n打开就记，记完就走\n\n你的智能记账伙伴',
+      content: '快记 v1.1.0\nAI 原生极速记账\n打开就记，记完就走\n\n你的智能记账伙伴',
       showCancel: false,
       confirmText: '好的'
     })
+  },
+
+  onPrivacy() {
+    wx.navigateTo({ url: '/pages/privacy/privacy' })
   },
 })

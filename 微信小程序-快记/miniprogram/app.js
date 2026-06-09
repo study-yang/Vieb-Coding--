@@ -90,6 +90,17 @@ App({
     }
   },
 
+  // 全局错误捕获
+  onError(err) {
+    console.error('App onError:', err)
+  },
+
+  // 页面不存在处理
+  onPageNotFound(res) {
+    console.warn('Page not found:', res.path)
+    wx.switchTab({ url: '/pages/index/index' })
+  },
+
   globalData: {
     theme: 'light',
     themeMode: 'auto',

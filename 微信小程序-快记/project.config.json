@@ -47,7 +47,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.3.4",
+  "libVersion": "3.15.2",
   "appid": "wxc467a32d51e6cd61",
   "projectname": "quick-jot",
   "condition": {},

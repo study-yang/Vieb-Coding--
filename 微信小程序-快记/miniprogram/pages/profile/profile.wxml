@@ -111,6 +111,14 @@
       </view>
       <view class="menu-arrow caption">›</view>
     </view>
+    <view class="divider"></view>
+    <view class="menu-item flex-between" bindtap="onPrivacy">
+      <view class="menu-left flex-row">
+        <view class="menu-icon">🔒</view>
+        <view class="menu-text">隐私政策</view>
+      </view>
+      <view class="menu-arrow caption">›</view>
+    </view>
   </view>
 
   <!-- 主题选择弹窗 -->

@@ -13,6 +13,12 @@ project.private.config.json
 # 云函数运行时文件
 cloudfunctions/*/node_modules/
 
+# 云函数配置（含 APPID/APPSECRET 等敏感信息）
+cloudfunctions/*/config.json
+
+# voiceToText 废弃目录
+cloudfunctions/voiceToText/
+
 # 构建产物
 dist/
 build/

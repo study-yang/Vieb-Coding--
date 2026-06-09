@@ -1,0 +1,86 @@
+<view class="container {{themeClass}}">
+  <view class="card">
+    <view class="doc-title">隐私政策</view>
+    <view class="doc-date caption">更新日期：2026年6月9日</view>
+    <view class="doc-date caption">生效日期：2026年6月9日</view>
+
+    <view class="doc-section">
+      <view class="doc-h2">一、引言</view>
+      <view class="doc-p">"快记"（以下简称"本应用"）是一款基于微信小程序的 AI 记账工具。我们深知个人信息对您的重要性，将严格遵守《中华人民共和国个人信息保护法》等相关法律法规，保护您的个人信息安全。本隐私政策适用于本应用的所有服务。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">二、我们收集的信息</view>
+      <view class="doc-p">为提供记账服务，我们可能收集以下信息：</view>
+      <view class="doc-h3">1. 财务数据</view>
+      <view class="doc-p">您主动记录的账单信息，包括消费金额、分类、日期、备注等。这些数据仅用于您的个人记账和统计分析。</view>
+      <view class="doc-h3">2. 语音信息</view>
+      <view class="doc-p">当您使用语音记账功能时，我们会通过微信同声传译插件将语音转换为文字。语音内容仅用于识别消费信息，不会被存储或用于其他用途。</view>
+      <view class="doc-h3">3. 图片信息</view>
+      <view class="doc-p">当您使用拍照记账功能时，我们会上传您拍摄的小票/账单图片，用于 AI 识别消费信息。图片仅用于识别，识别完成后不保留原始图片。</view>
+      <view class="doc-h3">4. 用户标识</view>
+      <view class="doc-p">我们通过微信自动获取您的 OPENID（用户唯一标识），用于区分不同用户的数据，确保您的账单数据不会与其他用户混淆。</view>
+      <view class="doc-h3">5. 设备信息</view>
+      <view class="doc-p">我们可能收集基本的设备信息（如系统版本、屏幕尺寸），用于优化应用适配和问题排查。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">三、信息的使用目的</view>
+      <view class="doc-p">我们收集的信息仅用于以下目的：</view>
+      <view class="doc-p">• 提供核心记账、统计分析、AI 消费分析等功能</view>
+      <view class="doc-p">• 维护和改进服务质量</view>
+      <view class="doc-p">• 保障账户和数据安全</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">四、信息的存储与保护</view>
+      <view class="doc-p">您的数据存储在腾讯云开发（CloudBase）服务器上，数据传输采用加密协议。我们采取以下安全措施：</view>
+      <view class="doc-p">• 所有数据库查询严格按用户隔离，确保您只能访问自己的数据</view>
+      <view class="doc-p">• 云函数服务端运行，不暴露原始数据库接口</view>
+      <view class="doc-p">• 定期进行安全审查</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">五、信息的共享与披露</view>
+      <view class="doc-p">我们不会将您的个人信息出售、出租或以其他方式提供给第三方，但以下情况除外：</view>
+      <view class="doc-p">• 获得您的明确同意</view>
+      <view class="doc-p">• 根据法律法规的要求或政府主管部门的强制性要求</view>
+      <view class="doc-p">• 为保护本应用或其用户的合法权益</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">六、AI 功能说明</view>
+      <view class="doc-p">本应用使用腾讯混元大模型提供以下 AI 功能：</view>
+      <view class="doc-p">• 语音文本解析：将您的文字描述转换为账单记录</view>
+      <view class="doc-p">• 图片识别：识别小票图片中的消费信息</view>
+      <view class="doc-p">• 消费分析：基于您的账单数据生成消费报告</view>
+      <view class="doc-p">• 省钱建议：基于消费数据提供个性化建议</view>
+      <view class="doc-p">AI 处理的数据仅为您自己的账单信息，不会与其他用户的数据混合。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">七、您的权利</view>
+      <view class="doc-p">您有权：</view>
+      <view class="doc-p">• 查看、修改您的个人信息</view>
+      <view class="doc-p">• 删除您的账单数据</view>
+      <view class="doc-p">• 导出您的全部数据</view>
+      <view class="doc-p">• 撤回授权同意</view>
+      <view class="doc-p">如需行使上述权利，请通过意见反馈功能联系我们。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">八、未成年人保护</view>
+      <view class="doc-p">本应用面向所有年龄段用户。我们不会故意收集未满 14 周岁未成年人的个人信息。如您为未满 14 周岁的未成年人，请在监护人指导下使用本应用。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">九、隐私政策的更新</view>
+      <view class="doc-p">我们可能会不时更新本隐私政策。更新后的政策将在本页面发布，并注明更新日期。建议您定期查看本页面。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-h2">十、联系我们</view>
+      <view class="doc-p">如您对本隐私政策有任何疑问、意见或建议，请通过应用内的"意见反馈"功能与我们联系。</view>
+    </view>
+  </view>
+</view>

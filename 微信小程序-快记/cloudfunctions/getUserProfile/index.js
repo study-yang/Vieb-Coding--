@@ -206,52 +206,25 @@ async function handleBindPhone(data, openid) {
     return { code: 500, message: '服务器未配置小程序凭证，请联系管理员在云函数环境变量中设置 APPID 和 APPSECRET' }
   }
 
-    try {
-      // If front-end provided encryptedData + iv + js_code, prefer decrypting locally via session_key
-      if (!code && data.encryptedData && data.iv && data.js_code) {
-        const js_code = data.js_code
-        // 1. code2session to get session_key
-        const appid = process.env.APPID
-        const appsecret = process.env.APPSECRET
-        const sessionUrl = `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${appsecret}&js_code=${js_code}&grant_type=authorization_code`
-        const sessionRes = await httpGet(sessionUrl)
-        const sessionObj = JSON.parse(sessionRes)
-        if (!sessionObj.session_key) {
-          console.error('code2session failed:', sessionObj.errmsg || sessionRes)
-          return { code: 500, message: '获取登录会话失败' }
-        }
-        const sessionKey = sessionObj.session_key
-        const phoneNumber = decryptPhoneData(data.encryptedData, data.iv, sessionKey)
-        if (!phoneNumber) {
-          return { code: 500, message: '解密手机号失败' }
-        }
-        // proceed with phoneNumber below
+  try {
+    // 用 code 换取手机号
+    const accessToken = await getAccessToken()
 
-        // assign to variable used by later logic
-        data._resolvedPhoneNumber = phoneNumber
-      } else {
-        // 1. 获取 access_token
-        const accessToken = await getAccessToken()
+    const phoneUrl = `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${accessToken}`
+    const phoneRes = await httpPost(phoneUrl, { code })
+    const phoneData = JSON.parse(phoneRes)
 
-        // 2. 用 code 换取手机号
-        const phoneUrl = `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${accessToken}`
-        const phoneRes = await httpPost(phoneUrl, { code })
-        const phoneData = JSON.parse(phoneRes)
+    if (phoneData.errcode !== 0) {
+      console.error('获取手机号失败: errcode=', phoneData.errcode, 'errmsg=', phoneData.errmsg)
+      return { code: 500, message: '获取手机号失败: ' + (phoneData.errmsg || '未知错误') }
+    }
 
-        if (phoneData.errcode !== 0) {
-          console.error('获取手机号失败: errcode=', phoneData.errcode, 'errmsg=', phoneData.errmsg)
-          return { code: 500, message: '获取手机号失败: ' + (phoneData.errmsg || '未知错误') }
-        }
+    const phoneInfo = phoneData.phone_info
+    if (!phoneInfo || !phoneInfo.phoneNumber) {
+      return { code: 500, message: '未获取到手机号' }
+    }
 
-        const phoneInfo = phoneData.phone_info
-        if (!phoneInfo || !phoneInfo.phoneNumber) {
-          return { code: 500, message: '未获取到手机号' }
-        }
-
-        data._resolvedPhoneNumber = phoneInfo.phoneNumber
-      }
-
-    const phoneNumber = data._resolvedPhoneNumber
+    const phoneNumber = phoneInfo.phoneNumber
 
     // 3. 检查是否有旧设备的用户已绑定此手机号（换机场景）
     const existingRes = await db.collection('users')
@@ -266,13 +239,14 @@ async function handleBindPhone(data, openid) {
       const collections = ['bills', 'budgets', 'feedbacks']
       for (const col of collections) {
         try {
-          // 分页读取并按文档更新 _openid
-          while (true) {
+          // 分页读取并按文档更新 _openid，最多 100 轮防止死循环
+          let iterations = 0
+          while (iterations < 100) {
             const res = await db.collection(col).where({ _openid: oldOpenid }).limit(500).get()
             if (!res.data || res.data.length === 0) break
             const updates = res.data.map(d => db.collection(col).doc(d._id).update({ data: { _openid: openid } }))
             await Promise.all(updates)
-            // 下一轮继续，直至全部迁移
+            iterations++
           }
         } catch (e) {
           console.warn(`迁移 ${col} 数据失败:`, e && e.message ? e.message : e)

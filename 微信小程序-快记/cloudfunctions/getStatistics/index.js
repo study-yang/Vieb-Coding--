@@ -3,7 +3,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
 const db = cloud.database()
 const _ = db.command
-const MAX_LIMIT = 100
+const $ = db.command.aggregate
 
 exports.main = async (event) => {
   const { period = 'month', startDate, endDate } = event
@@ -37,32 +37,38 @@ exports.main = async (event) => {
   }
 
   try {
-    // 改用 where + js 聚合，避免 aggregate match 的 _.gte/_.lte 兼容问题
-    const allRes = await db.collection('bills')
-      .where({ _openid: openid, date: _.gte(rangeStart).and(_.lte(rangeEnd)) })
-      .orderBy('date', 'desc')
-      .limit(MAX_LIMIT)
-      .get()
+    // 使用 aggregate 管道在数据库层聚合，不受 100 条限制
+    const aggRes = await db.collection('bills')
+      .aggregate()
+      .match({
+        _openid: openid,
+        date: _.gte(rangeStart).and(_.lte(rangeEnd))
+      })
+      .group({
+        _id: null,
+        totalExpense: $.sum($.cond($.gt(['$amount', 0]), '$amount', 0)),
+        totalIncome: $.sum($.cond($.lt(['$amount', 0]), $.abs('$amount'), 0)),
+        bills: $.push({
+          amount: '$amount',
+          category: '$category',
+          categoryName: '$categoryName',
+          date: '$date'
+        })
+      })
+      .end()
 
-    const bills = allRes.data || []
+    const result = (aggRes.data && aggRes.data[0]) || { totalExpense: 0, totalIncome: 0, bills: [] }
+    const bills = result.bills || []
 
-    // JS 层聚合
-    let totalExpense = 0
-    let totalIncome = 0
+    // 在 JS 层做分类和日期维度的二次聚合（数据量已是全量，无性能问题）
     const categoryMap = {}
     const dailyMap = {}
-
     const todayKey = now.toISOString().slice(0, 10)
     let todayExpense = 0
     let todayIncome = 0
 
     for (const bill of bills) {
       const amount = bill.amount || 0
-      if (amount > 0) {
-        totalExpense += amount
-      } else {
-        totalIncome += Math.abs(amount)
-      }
 
       // 分类汇总（仅支出）
       if (amount > 0) {
@@ -105,7 +111,7 @@ exports.main = async (event) => {
         name: c.name,
         total: Math.round(c.total * 100) / 100,
         count: c.count,
-        percent: totalExpense > 0 ? Math.round((c.total / totalExpense) * 100) : 0
+        percent: result.totalExpense > 0 ? Math.round((c.total / result.totalExpense) * 100) : 0
       }))
 
     // 日期汇总
@@ -120,8 +126,8 @@ exports.main = async (event) => {
     return {
       code: 0,
       data: {
-        totalExpense: Math.round(totalExpense * 100) / 100,
-        totalIncome: Math.round(totalIncome * 100) / 100,
+        totalExpense: Math.round(result.totalExpense * 100) / 100,
+        totalIncome: Math.round(result.totalIncome * 100) / 100,
         todayExpense: Math.round(todayExpense * 100) / 100,
         todayIncome: Math.round(todayIncome * 100) / 100,
         categoryBreakdown,

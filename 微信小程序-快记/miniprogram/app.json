@@ -4,7 +4,8 @@
     "pages/bill-list/bill-list",
     "pages/ai-analysis/ai-analysis",
     "pages/budget/budget",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/privacy/privacy"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -53,6 +54,14 @@
     "WechatSI": {
       "version": "0.0.7",
       "provider": "wx069ba97219f66d99"
+    }
+  },
+  "permission": {
+    "scope.camera": {
+      "desc": "用于拍照识别小票"
+    },
+    "scope.record": {
+      "desc": "用于语音记账"
     }
   }
 }
