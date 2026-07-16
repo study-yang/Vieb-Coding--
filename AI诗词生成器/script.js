@@ -93,40 +93,65 @@ const poemTemplates = {
     '7lv': { lines: 8, charsPerLine: 7 }
 };
 
-const poemStyleTemplates = {
-    '写景': {
-        themes: ['spring', 'summer', 'autumn', 'winter', 'landscape', 'windMoon'],
-        openings: {
-            5: [[2, 1, 2], [2, 2, 1], [4, 1], [2, 1, 1, 1], [1, 2, 2]],
-            7: [[2, 2, 1, 2], [4, 2, 1], [2, 1, 2, 2], [4, 1, 2], [2, 2, 2, 1], [2, 1, 4]]
-        },
-        closings: {
-            5: [[1, 2, 2], [2, 1, 2], [2, 2, 1], [1, 1, 1, 2]],
-            7: [[1, 2, 2, 2], [2, 1, 2, 2], [2, 2, 1, 2], [1, 1, 2, 2, 1], [2, 1, 1, 2, 1]]
-        }
+const curatedPoems = {
+    5: {
+        spring: ['春水绕柴门', '柳色入帘新', '小桥听燕语', '花影落衣襟', '晴烟浮远岫', '芳草接斜曛', '一径通幽处', '闲云过短亭'],
+        summer: ['荷风翻翠盖', '竹露滴清阴', '蝉声穿午梦', '萤火照疏林', '水亭凉欲满', '星河入小窗', '微雨收残暑', '扁舟泊晚汀'],
+        autumn: ['秋水接长天', '霜林红未尽', '孤雁过寒塘', '西风动客衣', '黄叶铺深径', '疏钟到远村', '一灯明古渡', '残月照柴扉'],
+        winter: ['寒雪压疏枝', '孤炉守夜深', '梅影横窗瘦', '山钟入梦清', '冻云遮远岭', '归鸟没烟汀', '一径无人迹', '松风满石扉'],
+        landscape: ['青山藏古寺', '白水绕孤村', '云根生石径', '松色入柴门', '远岫含残照', '飞泉落翠微', '野桥通晚渡', '樵径没苔痕'],
+        pastoral: ['柴门闻犬吠', '桑影落邻家', '新麦摇晴浪', '清溪送落花', '村烟依短树', '童子牧斜阳', '野老眠芳草', '篱边酒正香'],
+        windMoon: ['明月照空庭', '清风入短琴', '云影随杯动', '花香过水深', '一窗山色静', '半榻梦痕轻', '夜露沾诗卷', '疏星落砚屏'],
+        farewell: ['长亭连古道', '斜日照离杯', '孤帆天际没', '芳草故人回', '一笛关山远', '千程梦不归', '江月随舟去', '寒云绕客衣'],
+        lyric: ['闲愁生暮雨', '幽梦绕孤灯', '旧事随云散', '新诗向月成', '一念穿秋水', '半生听落英', '心远山河静', '情深草木青']
     },
-    '抒情': {
-        themes: ['lyric', 'pastoral'],
-        openings: {
-            5: [[1, 2, 2], [2, 1, 2], [1, 1, 1, 2], [1, 2, 1, 1], [1, 1, 2, 1]],
-            7: [[1, 2, 2, 2], [2, 1, 2, 2], [1, 1, 2, 2, 1], [1, 2, 1, 2, 1], [1, 1, 1, 2, 2]]
-        },
-        closings: {
-            5: [[2, 1, 2], [1, 2, 2], [2, 2, 1], [1, 1, 1, 2]],
-            7: [[2, 2, 1, 2], [1, 2, 2, 2], [2, 1, 2, 2], [1, 1, 2, 2, 1]]
-        }
-    },
-    '送别': {
-        themes: ['farewell'],
-        openings: {
-            5: [[2, 1, 2], [2, 2, 1], [1, 2, 2], [2, 1, 1, 1]],
-            7: [[2, 2, 1, 2], [2, 1, 2, 2], [4, 1, 2], [2, 1, 1, 1, 2], [4, 2, 1]]
-        },
-        closings: {
-            5: [[1, 2, 2], [2, 1, 2], [1, 1, 1, 2], [2, 2, 1]],
-            7: [[1, 2, 2, 2], [2, 1, 2, 2], [1, 1, 2, 2, 1], [2, 2, 1, 2], [1, 2, 1, 2, 1]]
-        }
+    7: {
+        spring: ['春江水暖烟初散', '柳外莺声过短墙', '桃花一径通幽处', '小雨吹香入画堂', '远岫晴云浮翠色', '闲庭芳草接斜阳', '半窗花影摇诗梦', '一盏新茶待故人'],
+        summer: ['荷风吹雨过南塘', '竹影筛凉入午窗', '蝉噪高枝云更静', '萤飞小院夜初长', '一池星影摇清梦', '半卷残书带晚香', '渔火隔江明又灭', '水亭人语近斜阳'],
+        autumn: ['秋水无声接远天', '霜枫一夜染江船', '孤鸿影外云山老', '短笛声中客梦寒', '黄叶满阶风未扫', '疏钟隔岸月初圆', '故园消息随砧远', '一盏清愁照不眠'],
+        winter: ['寒雪无声覆短篱', '梅花瘦影上窗迟', '孤灯照夜茶烟细', '远寺鸣钟客梦稀', '冻云低压千山白', '归鸟斜穿一径微', '炉火半温书卷旧', '松风吹月到柴扉'],
+        landscape: ['青山不语抱云眠', '白水回村入稻田', '石径苔深人迹少', '松门风定鸟声圆', '远峰落日收残翠', '古寺疏钟隔暮烟', '一叶扁舟横野渡', '半溪明月洗尘缘'],
+        pastoral: ['柴门半掩晚烟斜', '桑柘阴中两三家', '新麦翻风连远陌', '清溪抱石过残花', '牧童归去横牛背', '野老闲眠傍豆花', '一盏浊醪留客坐', '满庭星月照桑麻'],
+        windMoon: ['明月照人如旧识', '清风入袖似归人', '云影半窗摇竹榻', '花香一径到柴门', '夜深露白诗心静', '灯小茶温梦也真', '不问尘途多少事', '只听山雨洗秋痕'],
+        farewell: ['长亭芳草接天涯', '古道西风瘦马斜', '一棹烟波人渐远', '半江明月梦还家', '离歌未尽云先散', '别酒初醒雁已斜', '此去关山千万里', '愿君灯火有归槎'],
+        lyric: ['一寸幽怀寄晚钟', '半生清梦落花中', '旧书读罢灯犹在', '新月来时影自空', '世味渐随流水淡', '诗心还与远山同', '不知何处风吹笛', '吹入眉间一片秋']
     }
+};
+
+const acrosticLines = {
+    5: {
+        春: '春水绕柴门',
+        风: '风来花影动',
+        得: '得句听莺语',
+        意: '意远入云深',
+        爱: '爱月临窗久',
+        我: '我心随雁远',
+        中: '中庭生白露',
+        华: '华灯照夜深',
+        生: '生涯归静处',
+        日: '日暮见青山',
+        快: '快阁闻疏雨',
+        乐: '乐事在林泉'
+    },
+    7: {
+        春: '春江水暖烟初散',
+        风: '风入疏帘花影动',
+        得: '得句欲题云满纸',
+        意: '意随明月到天涯',
+        爱: '爱向人间留暖色',
+        我: '我寄清怀入远山',
+        中: '中庭露白秋声细',
+        华: '华灯初上夜香微',
+        生: '生涯半在青山外',
+        日: '日暮归云过短篱',
+        快: '快意清风来满袖',
+        乐: '乐游原上草初齐'
+    }
+};
+
+const acrosticTails = {
+    5: ['入小窗明', '落一庭香', '照半溪云', '过晚山青', '带远钟清', '向月华深', '与白云闲', '到故人家'],
+    7: ['入梦清风过短墙', '落纸云烟带墨香', '照水寒星生远浦', '过桥花影动斜阳', '带雨归舟泊晚汀', '向晚疏钟到客窗', '与月同眠山色里', '到门芳草认春痕']
 };
 
 let currentPoem = '';
@@ -136,110 +161,46 @@ function getRandomItem(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function getStyleForTheme(theme) {
-    for (const [style, config] of Object.entries(poemStyleTemplates)) {
-        if (config.themes.includes(theme)) {
-            return style;
-        }
-    }
-    return null;
+function chooseTheme(keywords = []) {
+    const text = keywords.join('');
+    const hints = [
+        ['spring', '春柳桃杏莺燕花'],
+        ['summer', '夏荷莲蝉萤暑'],
+        ['autumn', '秋霜枫雁叶'],
+        ['winter', '冬雪寒梅冰'],
+        ['farewell', '别离送归客亭'],
+        ['pastoral', '田园村桑麦柴'],
+        ['windMoon', '风月云夜星梦'],
+        ['landscape', '山水江溪石寺'],
+        ['lyric', '心情愁思念诗']
+    ];
+    const match = hints.find(([, chars]) => [...text].some(ch => chars.includes(ch)));
+    return match ? match[0] : getRandomItem(Object.keys(curatedPoems[5]));
 }
 
-function generateLine(charsPerLine, startWord = '', theme = null, keywords = [], preferredPatterns = null) {
-    let line = startWord;
-    let remaining = charsPerLine - startWord.length;
+function getCuratedLines(charsPerLine, lineCount, theme) {
+    const pool = curatedPoems[charsPerLine][theme] || curatedPoems[charsPerLine].spring;
+    const start = lineCount === 4 ? getRandomItem([0, 4]) : 0;
+    return pool.slice(start, start + lineCount);
+}
 
-    if (remaining <= 0) return line.slice(0, charsPerLine);
-
-    const themeVocab = theme && vocabulary.themes[theme] ? vocabulary.themes[theme] : null;
-
-    function getWord(category) {
-        if (themeVocab && themeVocab[category] && themeVocab[category].length > 0) {
-            return getRandomItem(themeVocab[category]);
-        }
-        if (vocabulary[category] && vocabulary[category].length > 0) {
-            return getRandomItem(vocabulary[category]);
-        }
-        return getRandomItem(vocabulary.nouns);
-    }
-
-    function getByLength(len) {
-        if (len === 4) {
-            if (Math.random() < 0.35) {
-                return getWord('nouns') + getWord('nouns');
-            }
-            return getRandomItem(vocabulary.collocations);
-        }
-        if (len === 2) return getWord('nouns');
-        if (len === 1) {
-            const cats = ['verbs', 'adjectives', 'adverbs', 'quantity'];
-            return getWord(getRandomItem(cats));
-        }
-        return getWord('nouns').slice(0, len);
-    }
-
-    function getPatternsFor(rem) {
-        const map = {
-            1: [[1]],
-            2: [[2], [1, 1]],
-            3: [[2, 1], [1, 2], [1, 1, 1]],
-            4: [[2, 2], [2, 1, 1], [1, 2, 1], [1, 1, 2], [1, 1, 1, 1]],
-            5: [[2, 1, 2], [2, 2, 1], [1, 2, 2], [2, 1, 1, 1], [1, 2, 1, 1], [1, 1, 2, 1]],
-            6: [[2, 2, 2], [2, 2, 1, 1], [2, 1, 2, 1], [1, 2, 2, 1], [2, 1, 1, 2], [4, 2], [2, 4], [4, 1, 1], [1, 1, 2, 2]],
-            7: [[2, 2, 2, 1], [2, 1, 2, 2], [4, 2, 1], [2, 1, 4], [2, 2, 1, 2], [1, 2, 2, 2], [4, 1, 2], [2, 1, 2, 1, 1], [1, 2, 1, 2, 1]]
-        };
-        return map[rem] || [[...Array(rem).fill(1)]];
-    }
-
-    let patternList;
-    if (preferredPatterns) {
-        patternList = preferredPatterns.filter(p => p.reduce((a, b) => a + b, 0) === remaining);
-    }
-    if (!patternList || patternList.length === 0) {
-        patternList = getPatternsFor(remaining);
-    }
-    const pattern = getRandomItem(patternList);
-    const segments = pattern.map(len => getByLength(len));
-
-    line += segments.join('');
-    return line.slice(0, charsPerLine);
+function makeAcrosticLine(head, line) {
+    const charsPerLine = line.length;
+    return acrosticLines[charsPerLine][head] || head + getRandomItem(acrosticTails[charsPerLine]);
 }
 
 function generateNormalPoem(poemType, keywords = []) {
     const config = poemTemplates[poemType];
-    const lines = [];
     const keywordList = keywords.filter(k => k.trim());
-    const themeNames = ['spring', 'summer', 'autumn', 'winter', 'landscape', 'pastoral', 'windMoon', 'farewell', 'lyric'];
-    const theme = getRandomItem(themeNames);
-    const style = getStyleForTheme(theme);
-
-    for (let i = 0; i < config.lines; i++) {
-        let startWord = '';
-        if (keywordList.length > 0 && i < keywordList.length) {
-            startWord = keywordList[i];
-        }
-
-        let preferredPatterns = null;
-        if (i === 0 && Math.random() < 0.7 && style && poemStyleTemplates[style]) {
-            const styleOpenings = poemStyleTemplates[style].openings[config.charsPerLine];
-            if (styleOpenings && styleOpenings.length > 0) {
-                preferredPatterns = styleOpenings;
-            }
-        }
-
-        const line = generateLine(config.charsPerLine, startWord, theme, keywordList.slice(i + 1), preferredPatterns);
-        lines.push(line);
-    }
-
-    return lines;
+    const theme = chooseTheme(keywordList);
+    return getCuratedLines(config.charsPerLine, config.lines, theme);
 }
 
 function generateAcrosticPoem(poemType, headWords) {
     const config = poemTemplates[poemType];
-    const lines = [];
     const words = headWords.filter(w => w.trim());
-    const themeNames = ['spring', 'summer', 'autumn', 'winter', 'landscape', 'pastoral', 'windMoon', 'farewell', 'lyric'];
-    const theme = getRandomItem(themeNames);
+    const theme = chooseTheme(words);
+    const lines = getCuratedLines(config.charsPerLine, config.lines, theme);
 
     if (words.length === 0) {
         words.push(...['春', '风', '得', '意']);
@@ -249,13 +210,7 @@ function generateAcrosticPoem(poemType, headWords) {
         words.push(getRandomItem(vocabulary.nouns)[0]);
     }
 
-    for (let i = 0; i < config.lines; i++) {
-        const startWord = words[i % words.length];
-        const line = generateLine(config.charsPerLine, startWord, theme);
-        lines.push(line);
-    }
-
-    return lines;
+    return lines.map((line, index) => makeAcrosticLine(words[index % words.length], line));
 }
 
 function generatePoem() {
@@ -458,11 +413,17 @@ function showToast(message) {
     }, 2500);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('generateBtn').addEventListener('click', generatePoem);
-    document.getElementById('copyBtn').addEventListener('click', copyPoem);
-    document.getElementById('saveBtn').addEventListener('click', savePoem);
-    document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
-    
-    loadHistory();
-});
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generateBtn').addEventListener('click', generatePoem);
+        document.getElementById('copyBtn').addEventListener('click', copyPoem);
+        document.getElementById('saveBtn').addEventListener('click', savePoem);
+        document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
+        
+        loadHistory();
+    });
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = { generateNormalPoem, generateAcrosticPoem };
+}

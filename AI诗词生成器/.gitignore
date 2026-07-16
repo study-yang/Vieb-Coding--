@@ -25,6 +25,13 @@ Desktop.ini
 .env
 .env.local
 
+# Local working artifacts
+.agents/
+output/
+documents/
+fix-poem-generator/
+test-poem-generator.js
+
 # Node (if any)
 node_modules/
 npm-debug.log*

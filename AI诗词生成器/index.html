@@ -3,98 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI诗词生成器</title>
+    <title>AI诗词生成器 · 暗夜玉韵</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="ink-particles" aria-hidden="true"></div>
+
+    <div class="app-shell">
         <header class="header">
+            <div class="header-glint"></div>
+            <button class="theme-toggle" id="themeToggle" aria-label="切换主题" title="切换明亮/暗夜主题">
+                <span class="theme-icon-dark">☀️</span>
+                <span class="theme-icon-light">🌙</span>
+            </button>
             <h1 class="title">
-                <span class="brush-decoration">AI</span>诗词生成器
+                <span class="title-jade">AI</span>
+                <span class="title-main">诗词生成器</span>
             </h1>
-            <p class="subtitle">以墨为韵，以诗为心</p>
+            <p class="subtitle">
+                <span class="subtitle-line"></span>
+                <span class="subtitle-dark">暗夜研墨，以诗为灯</span>
+                <span class="subtitle-light">晨光研墨，以诗为窗</span>
+                <span class="subtitle-line"></span>
+            </p>
         </header>
 
         <main class="main-content">
-            <div class="left-panel">
-                <div class="control-panel card">
-                    <h2 class="section-title">创作设置</h2>
-                    
+            <aside class="control-panel">
+                <div class="panel-card">
+                    <div class="card-accent"></div>
+                    <h2 class="section-title">
+                        <span class="title-icon">✧</span>
+                        创作台
+                    </h2>
+
                     <div class="form-group">
-                        <label for="poemType">诗词类型</label>
-                        <select id="poemType" class="form-select">
-                            <option value="normal">普通诗词</option>
-                            <option value="acrostic">藏头诗</option>
-                        </select>
+                        <label for="poemType">
+                            <span class="label-dot"></span>诗词类型
+                        </label>
+                        <div class="select-wrapper">
+                            <select id="poemType" class="form-select">
+                                <option value="normal">普通诗词</option>
+                                <option value="acrostic">藏头诗</option>
+                            </select>
+                            <span class="select-arrow">▾</span>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="poemLength">诗词格式</label>
-                        <select id="poemLength" class="form-select">
-                            <option value="5jue">五言绝句</option>
-                            <option value="7jue">七言绝句</option>
-                            <option value="5lv">五言律诗</option>
-                            <option value="7lv">七言律诗</option>
-                        </select>
+                        <label for="poemLength">
+                            <span class="label-dot"></span>诗词格式
+                        </label>
+                        <div class="select-wrapper">
+                            <select id="poemLength" class="form-select">
+                                <option value="5jue">五言绝句</option>
+                                <option value="7jue">七言绝句</option>
+                                <option value="5lv">五言律诗</option>
+                                <option value="7lv">七言律诗</option>
+                            </select>
+                            <span class="select-arrow">▾</span>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="keywords">关键词</label>
-                        <input type="text" id="keywords" class="form-input" placeholder="请输入关键词，用逗号分隔">
-                        <p class="hint">藏头诗时请输入藏头的字</p>
+                        <label for="keywords">
+                            <span class="label-dot"></span>关键词
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="keywords" class="form-input" placeholder="以字为引，以词为墨…">
+                            <span class="input-glow"></span>
+                        </div>
+                        <p class="hint">藏头诗模式下，输入即藏头之字</p>
                     </div>
 
                     <button id="generateBtn" class="btn btn-primary">
+                        <span class="btn-shimmer"></span>
+                        <span class="btn-icon">⚡</span>
                         <span class="btn-text">生成诗词</span>
                     </button>
                 </div>
 
-                <div class="history-panel card">
+                <div class="panel-card history-card">
+                    <div class="card-accent"></div>
                     <div class="history-header">
-                        <h2 class="section-title">历史作品</h2>
-                        <button id="clearHistoryBtn" class="btn btn-small">清空</button>
+                        <h2 class="section-title">
+                            <span class="title-icon">◈</span>
+                            墨迹留痕
+                        </h2>
+                        <button id="clearHistoryBtn" class="btn btn-ghost">清空</button>
                     </div>
                     <div id="historyList" class="history-list">
-                        <p class="empty-hint">暂无历史记录</p>
+                        <p class="empty-hint">尚无墨迹，待君落笔</p>
                     </div>
                 </div>
-            </div>
+            </aside>
 
-            <div class="right-panel">
-                <div class="result-panel card">
+            <section class="poetry-stage">
+                <div class="stage-card">
+                    <div class="stage-border stage-border-top"></div>
+                    <div class="stage-border stage-border-bottom"></div>
+                    <div class="stage-border stage-border-left"></div>
+                    <div class="stage-border stage-border-right"></div>
+
                     <div class="poem-container" id="poemContainer">
                         <div class="poem-paper">
-                            <div class="seal-decoration"></div>
+                            <div class="poem-corner poem-corner-tl"></div>
+                            <div class="poem-corner poem-corner-tr"></div>
+                            <div class="poem-corner poem-corner-bl"></div>
+                            <div class="poem-corner poem-corner-br"></div>
+
+                            <div class="seal-decoration">
+                                <span>诗</span>
+                            </div>
+
                             <div id="poemContent" class="poem-content">
-                                <p class="poem-placeholder">点击"生成诗词"开始创作</p>
+                                <div class="poem-placeholder-wrapper">
+                                    <span class="placeholder-brush">⏣</span>
+                                    <p class="poem-placeholder">研墨待诗成</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="action-buttons" id="actionButtons" style="display: none;">
-                        <button id="copyBtn" class="btn btn-secondary">
-                            <span class="btn-icon">📋</span>
+                        <button id="copyBtn" class="btn btn-action">
+                            <span class="btn-icon">⎘</span>
                             复制
                         </button>
-                        <button id="saveBtn" class="btn btn-secondary">
-                            <span class="btn-icon">💾</span>
+                        <button id="saveBtn" class="btn btn-action">
+                            <span class="btn-icon">♢</span>
                             保存
                         </button>
                     </div>
                 </div>
-            </div>
+            </section>
         </main>
 
         <footer class="footer">
-            <p>© 2024 AI诗词生成器 | 传承千年文化，续写诗意人生</p>
+            <div class="footer-divider"></div>
+            <p>AI诗词生成器 · 双主题 · 传承千年文化，续写诗意人生</p>
         </footer>
     </div>
 
     <div class="toast" id="toast"></div>
 
     <script src="script.js"></script>
+    <script>
+        (function() {
+            const toggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            const saved = localStorage.getItem('poem-theme') || 'light';
+            html.setAttribute('data-theme', saved);
+
+            toggle.addEventListener('click', function() {
+                const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                localStorage.setItem('poem-theme', next);
+            });
+        })();
+    </script>
+    <script>
+        (function() {
+            const container = document.querySelector('.ink-particles');
+            const count = 25;
+            for (let i = 0; i < count; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'ink-dot';
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = Math.random() * 100 + '%';
+                dot.style.animationDelay = Math.random() * 8 + 's';
+                dot.style.animationDuration = (6 + Math.random() * 10) + 's';
+                dot.style.width = dot.style.height = (2 + Math.random() * 4) + 'px';
+                container.appendChild(dot);
+            }
+        })();
+    </script>
 </body>
 </html>
