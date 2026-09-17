@@ -268,11 +268,23 @@ html[data-theme="dark"] ::selection{ color:#fff; }
   filter:blur(72px) saturate(1.24);
   -webkit-filter:blur(72px) saturate(1.24);
   opacity:.92;
+  /* 滚动视差 —— 慢、远。系数 0.12 配 inset:-12% 的余量，
+     用 clamp 把位移卡在 ±11vh（留 1vh 安全边），任何滚动位置都不会露出边沿。
+     预算写成 vh 而不是由 JS 算 px：改窗口尺寸时自动跟着安全，不必再加 resize 监听。
+     transform 会把这层提到合成层，blur(72px) 的结果因此被缓存、平移时不再重算，
+     所以给一个已经付了模糊代价的元素加位移反而很便宜。 */
+  transform:translate3d(0, clamp(-11vh, calc(var(--sy, 0px) * 0.12), 11vh), 0);
 }
 .grain{
-  position:fixed; inset:0; z-index:-3; pointer-events:none;
+  /* inset 由 0 放宽到上下各 ±18%：这层是 180px 的重复噪点贴图，
+     放大后画出来的东西完全一样（只是图案相位平移，随机噪点看不出来），
+     但它因此有了余量做反向视差 —— 系数 -0.18 比 .aurora 大，需要更多余量。 */
+  position:fixed; inset:-18% 0; z-index:-3; pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
   opacity:.05;
+  /* 与 .aurora 反向、且更快 —— 两层反向运动才产生纵深；同向只会读成整体晃。
+     同样 clamp 在 ±17vh（余量 18%，留 1vh 安全边）。 */
+  transform:translate3d(0, clamp(-17vh, calc(var(--sy, 0px) * -0.18), 17vh), 0);
 }
 .veil{
   position:fixed; inset:0; z-index:-2; pointer-events:none;
@@ -435,11 +447,22 @@ h1.name em{ font-style:normal; color:var(--accent); }
 .card .cover{
   position:relative; aspect-ratio:4/3;
   border-radius:18px; border:1px solid var(--rule);
-  transition:transform .55s var(--ease), box-shadow .55s var(--ease);
+  /* 这一条管「指针离开」：慢（.62s）地弹回并稳住。
+     指针进入后的快速跟随由下面 :hover 里的 transition 覆盖掉。
+     两条时长不同才是「有重量」和「发飘」的分界 —— 都一样快就是无生命的。 */
+  transition:transform .62s var(--ease), box-shadow .55s var(--ease);
 }
 .card .cover > svg{ display:block; width:100%; height:100%; border-radius:17px; }
 .card:hover .cover, .card:focus-visible .cover{
-  transform:translateY(-5px);
+  /* 指针在卡片内：倾斜必须跟手，所以 .14s。
+     --tx/--ty 是 -1..1 的归一化偏移，由 initSpotlight() 与光斑共用同一次 rAF 写入，
+     没有第二个 pointermove 监听。translateY(-5px) 是原有的抬起，保持在最后，
+     这样 3D 旋转不会把它放大成位移漂移。 */
+  transition:transform .14s var(--ease), box-shadow .55s var(--ease);
+  transform:perspective(1000px)
+            rotateX(calc(var(--ty, 0) * -4deg))
+            rotateY(calc(var(--tx, 0) * 4deg))
+            translateY(-5px);
   box-shadow:0 30px 62px -32px rgba(11,11,12,.36);
 }
 
@@ -458,7 +481,11 @@ h1.name em{ font-style:normal; color:var(--accent); }
   width:440px; height:440px; margin:-220px 0 0 -220px; border-radius:50%;
   background:radial-gradient(circle closest-side,
     rgba(75,63,212,.18), rgba(75,63,212,.07) 46%, rgba(75,63,212,0) 74%);
-  transform:translate3d(var(--mx,0px), var(--my,0px), 0);
+  /* scale 的变换原点在圆心上（left/top 0 + 负 margin 把圆心对到封面左上角原点），
+     所以 translate3d 之后 center 仍然稳稳落在 (--mx, --my)，位置语义没变。
+     --sp 由指针速度推出：快了放大（同一段渐变被拉长 => 读起来更柔），
+     停手回到 1（更小更紧）。变换原点即圆心，所以放大是「向外发散」而不是整体偏移。 */
+  transform:translate3d(var(--mx,0px), var(--my,0px), 0) scale(var(--sp, 1));
   transition:transform .16s var(--ease);
 }
 /* 入场那一刻关掉过渡，避免光斑从上一张卡的位置一路滑过来。
@@ -503,6 +530,17 @@ h1.name em{ font-style:normal; color:var(--accent); }
 /* 逐卡滚入（用 animation，避免覆盖 .cover 的 hover transform 过渡） */
 #works.in .card{ animation:cardIn .68s var(--ease) both; animation-delay:calc(var(--i,0) * 90ms); }
 @keyframes cardIn{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:none; } }
+
+/* 笔记 / 方法 / 经历：逐条错峰，不再整块一起出现。
+   完全复用上面 #works 那一套（只换关键帧名，motion 语言保持一致），
+   条目上的 --i 由 renderXxx() 内联写入，和作品卡的做法一模一样。
+   实际条数：笔记 7 → 最后一条 490ms；方法 3、经历 3 → 210ms。
+   上限刻意压在 ~500ms：再长就会让人等，而不是看。 */
+.notes.in .note, .methods.in .method, .exp.in .exp-item{
+  animation:itemIn .6s var(--ease) both;
+  animation-delay:calc(var(--i, 0) * 70ms);
+}
+@keyframes itemIn{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
 
 @media (max-width:900px){ .works{ grid-template-columns:1fr; } }
 
@@ -630,11 +668,23 @@ footer a:hover{ color:var(--accent); }
   position:fixed; top:0; right:0; height:100%; width:min(760px,92%); z-index:210;
   background:var(--paper); border-left:1px solid var(--rule);
   transform:translateX(100.5%);
-  transition:transform .58s var(--ease);
+  /* 退出：短促果断、不回弹。进入的回弹曲线见下面的 .open —— 分开写才有生命。 */
+  transition:transform .44s cubic-bezier(.4,0,.9,.4);
   overflow-y:auto; overscroll-behavior:contain;
-  box-shadow:-1px 0 0 var(--rule), -40px 0 90px -30px rgba(0,0,0,.5);
+  /* 第一条阴影是「右侧补白」，专门用来吸收入场回弹：
+     回弹会让面板越过静止位往左跑（负 translateX），右边缘于是离开视口边，
+     露出后面的遮罩。这条 40px 的实心纸色阴影跟着面板一起走，正好把缝填满。
+     静止时它整个在视口外，看不见；退出时面板往右走，它也跟着更远。
+     实测回弹峰值 ≈ 4.1% 面板宽（cubic-bezier(.34,1.36,.4,1) 的 y 最大值 ≈1.041，
+     行程 100.5% 面板宽）→ 1440px 视口下面板宽 760px，缝最大 31px，40px 有富余。 */
+  box-shadow:40px 0 0 0 var(--paper),
+             -1px 0 0 var(--rule), -40px 0 90px -30px rgba(0,0,0,.5);
 }
-#detail.open{ transform:none; }
+#detail.open{
+  transform:none;
+  /* 进入：过冲后稳住，落地有重量 */
+  transition:transform .64s cubic-bezier(.34,1.36,.4,1);
+}
 .d-bar{
   position:sticky; top:0; z-index:4;
   display:flex; align-items:center; justify-content:space-between; gap:14px;
@@ -713,6 +763,11 @@ footer a:hover{ color:var(--accent); }
   .rv{ opacity:1; transform:none; }
   .hero-in{ opacity:1; }
   .dot{ animation:none; }
+  /* ★ 上面那条 * 只把时长压到 0.01ms，位移本身还在。
+     新增的物理感必须在这里显式归零，否则「减弱动效」下倾斜和视差照样跟着动。 */
+  .aurora, .grain{ transform:none; }                                  /* 视差归零 */
+  .card:hover .cover, .card:focus-visible .cover{ transform:translateY(-5px); }  /* 只留原有的抬起 */
+  .spot::before{ transform:translate3d(var(--mx, 0px), var(--my, 0px), 0); }     /* 去掉速度缩放 */
 }
 </style>
 </head>
@@ -1420,11 +1475,28 @@ function initSpotlight(){
   if (!works) return;
   if (!window.matchMedia || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
 
-  /* 把「指针在封面内的坐标」写进 CSS 变量 */
+  /* 把指针状态写进 CSS 变量。一次 rAF 写三组值，共用同一次布局读取：
+       --mx / --my  相对封面的原始像素（.spot::before 的位置，语义不能变）
+       --tx / --ty  相对封面中心的归一化偏移 -1..1（封面 3D 倾斜用）
+       --sp         由指针速度推出的光斑缩放：1（静）→ 1.34（快）
+     封面正中恰好给 --tx = --ty = 0，所以键盘聚焦只要传中点，倾斜天然为 0，不用特判。 */
+  let lastX = null, lastY = null, idle = 0;
   const place = (spot, cover, x, y, instant) => {
+    const w = cover.clientWidth || 1, h = cover.clientHeight || 1;
     if (instant) spot.classList.add('noEase');
     spot.style.setProperty('--mx', x + 'px');
     spot.style.setProperty('--my', y + 'px');
+    cover.style.setProperty('--tx', ((x / w) * 2 - 1).toFixed(3));
+    cover.style.setProperty('--ty', ((y / h) * 2 - 1).toFixed(3));
+    /* 速度 = 相邻两次采样的位移。入场首帧没有上一采样点，按静止算，
+       免得光斑刚落到新卡片上就先炸一下尺寸。40px/帧 记为「快」。 */
+    const d = (instant || lastX === null) ? 0 : Math.hypot(x - lastX, y - lastY);
+    lastX = x; lastY = y;
+    spot.style.setProperty('--sp', (1 + Math.min(1, d / 40) * 0.34).toFixed(3));
+    /* 指针停下就不会再有 pointermove，也就不会再进 rAF ——
+       用一个短延时兜底把缩放收回 1（.16s 过渡会把它平滑接住）。 */
+    clearTimeout(idle);
+    idle = setTimeout(() => spot.style.setProperty('--sp', '1'), 90);
     if (instant) requestAnimationFrame(() => spot.classList.remove('noEase'));
   };
   const rel = (cover, e) => {
@@ -1466,8 +1538,8 @@ function initSpotlight(){
 }
 
 function renderNotes(){
-  $('#notes').innerHTML = NOTES.map(n => `
-    <li class="note">
+  $('#notes').innerHTML = NOTES.map((n, i) => `
+    <li class="note" style="--i:${i}">
       <span class="note-d">${n.d}</span>
       <div>
         <h3>${n.t}</h3>
@@ -1488,8 +1560,8 @@ function renderAbout(){
 }
 
 function renderMethods(){
-  $('#methods').innerHTML = METHODS.map(m => `
-    <div class="method">
+  $('#methods').innerHTML = METHODS.map((m, i) => `
+    <div class="method" style="--i:${i}">
       <span class="label">${m.no}</span>
       <h4>${m.t}</h4>
       <p>${m.d}</p>
@@ -1497,8 +1569,8 @@ function renderMethods(){
 }
 
 function renderExperience(){
-  $('#exp').innerHTML = EXPERIENCES.map(e => `
-    <div class="exp-item">
+  $('#exp').innerHTML = EXPERIENCES.map((e, i) => `
+    <div class="exp-item" style="--i:${i}">
       <div class="exp-when">${e.period}<b>${e.org}</b></div>
       <div>
         <div class="exp-role">${e.role}</div>
@@ -1582,9 +1654,15 @@ function initDetail(){
    ================================================================== */
 function initNavState(){
   const nav = $('#nav');
+  const root = document.documentElement;
   let ticking = false;
   const update = () => {
     nav.classList.toggle('pinned', window.scrollY > 12);
+    /* 背景视差：复用这个已有的 scroll + rAF 节流循环，不另加监听。
+       只写原始滚动量（px），位移预算由 CSS 的 clamp(±11vh / ±17vh) 兜住 ——
+       写成 vh 的好处是改窗口尺寸时自动跟着安全，不需要再挂 resize。
+       .aurora 慢而远、.grain 反向而近，反向运动才读得出纵深。 */
+    root.style.setProperty('--sy', window.scrollY.toFixed(1) + 'px');
     ticking = false;
   };
   addEventListener('scroll', () => { if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive:true });
